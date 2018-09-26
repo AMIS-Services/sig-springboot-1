@@ -1,8 +1,8 @@
 package nl.sjop.service.web;
 
+import nl.sjop.service.domain.Currency;
 import nl.sjop.service.domain.Product;
 import nl.sjop.service.exception.ProductNotFoundException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,10 +44,19 @@ public class ShoppingController {
         //headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
         ResponseEntity<Product> result = restTemplate.exchange(uri, HttpMethod.GET, entity, Product.class);
-        if (result.getStatusCode() == HttpStatus.OK && result.getBody() != null) {
-           return result.getBody();
-        } else {
+        Product product = result.getBody();
+        if (!(result.getStatusCode() == HttpStatus.OK && result.getBody() != null)) {
            throw new ProductNotFoundException("id:"+productId);
         }
+
+        final String currencyUrl = "https://api.exchangeratesapi.io/latest";
+        restTemplate = new RestTemplate();
+        HttpHeaders currencyHeaders = new HttpHeaders();
+        headers.add("base", "EUR");
+        HttpEntity<String> currencyEntity = new HttpEntity<>("parameters", currencyHeaders);
+        ResponseEntity<Currency> currencyResult = restTemplate.exchange(currencyUrl, HttpMethod.GET, currencyEntity, Currency.class);
+        Currency currency = currencyResult.getBody();
+        product.setPriceUSD(product.getPrice() * currency.getRates().get("USD"));
+        return product;
     }
 }

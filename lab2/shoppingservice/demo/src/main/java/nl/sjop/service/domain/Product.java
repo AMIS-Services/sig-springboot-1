@@ -10,6 +10,7 @@ public class Product {
     private String bottleSize;
     private double abv;
     private double price;
+    private double priceUSD;
 
     public Product()
     {
@@ -80,5 +81,13 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getPriceUSD() {
+        return priceUSD;
+    }
+
+    public void setPriceUSD(double priceUSD) {
+        this.priceUSD = priceUSD;
     }
 }
