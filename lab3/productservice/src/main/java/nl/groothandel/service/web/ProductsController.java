@@ -30,9 +30,9 @@ public class ProductsController {
 
     @RequestMapping(value = "/{productId}", method=RequestMethod.POST)
     //@ResponseBody
-    public ResponseEntity<Product> addDrink(@PathVariable("productId") String productId,
-                                            @RequestBody Product product,
-                                            UriComponentsBuilder builder) {
+    public ResponseEntity<Product> addProduct(@PathVariable("productId") String productId,
+                                              @RequestBody Product product,
+                                              UriComponentsBuilder builder) {
         if (productRepository.addProduct(productId, product)) {
             final HttpHeaders headers = new HttpHeaders();
             final URI uri = builder.path("drink/{id}").buildAndExpand(productId).toUri();
