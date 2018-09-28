@@ -30,4 +30,14 @@ public class ProductRepositoryImpl {
             return true;
         }
     }
+
+    public boolean updateProduct (String id, Product product) {
+        if (products.containsKey(id)) {
+            products.remove(id);
+            products.put(id, product);
+            return true;
+        } else {
+            return false;
+        }
+    }	
 }

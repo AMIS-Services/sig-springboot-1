@@ -49,7 +49,6 @@ public class ShoppingController {
         }
     }
 
-
     @RequestMapping(value = "drink/{id}", method=RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Product> addDrink(@PathVariable("id") String productId, @RequestBody Product product) {
@@ -75,4 +74,30 @@ public class ShoppingController {
         }
         return result;
     }
+	
+	@RequestMapping(value = "drink/{id}", method=RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<Product> modifyDrink(@PathVariable("id") String productId, @RequestBody Product product) {
+
+        final String url = "http://localhost:8081/products/{productId}";
+
+        Map<String, String> uriParams = new HashMap<>();
+        uriParams.put("productId", productId);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
+        URI uri = builder.buildAndExpand(uriParams).toUri();
+        //
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new ShoppingErrorHandler());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Product> entity = new HttpEntity<>(product, headers);
+        ResponseEntity<Product> result = restTemplate.exchange(uri, HttpMethod.PUT, entity, Product.class);
+        if (result.getStatusCode() == HttpStatus.OK) {
+            System.out.println("Product updated");
+        } else {
+            System.out.println("Failure updating product with id: " + productId);
+        }
+        return result;
+    }	
 }

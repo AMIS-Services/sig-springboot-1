@@ -42,4 +42,19 @@ public class ProductsController {
             return new ResponseEntity<>(product, HttpStatus.CONFLICT);
         }
     }
+	
+    @RequestMapping(value = "/{productId}", method=RequestMethod.PUT)
+    //@ResponseBody
+    public ResponseEntity<Product> modifyDrink(@PathVariable("productId") String productId,
+                                               @RequestBody Product product,
+                                               UriComponentsBuilder builder) {
+        if (productRepository.updateProduct(productId, product)) {
+            final HttpHeaders headers = new HttpHeaders();
+            final URI uri = builder.path("drink/{id}").buildAndExpand(productId).toUri();
+            headers.setLocation(uri);
+            return new ResponseEntity<>(product, headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(product, HttpStatus.CONFLICT);
+        }
+    }	
 }
