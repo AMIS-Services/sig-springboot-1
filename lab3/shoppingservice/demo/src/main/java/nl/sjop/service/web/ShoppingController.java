@@ -26,7 +26,7 @@ public class ShoppingController {
         return restTemplate.getForObject(urlProductService, List.class );
     }
 
-    @RequestMapping(value="drink/{id}", method=RequestMethod.GET, produces = "application/json")
+    @GetMapping(value="drink/{id}", produces = "application/json")
     public static Product retrieveDrink(@PathVariable("id") String productId) {
 
         final String url = "http://localhost:8081/products/{productId}";
@@ -74,8 +74,8 @@ public class ShoppingController {
         }
         return result;
     }
-	
-	@RequestMapping(value = "drink/{id}", method=RequestMethod.PUT)
+
+    @RequestMapping(value = "drink/{id}", method=RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<Product> modifyDrink(@PathVariable("id") String productId, @RequestBody Product product) {
 
@@ -99,5 +99,5 @@ public class ShoppingController {
             System.out.println("Failure updating product with id: " + productId);
         }
         return result;
-    }	
+    }
 }

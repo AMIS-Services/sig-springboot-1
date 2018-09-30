@@ -2,6 +2,7 @@ package nl.sjop.service.web;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +24,7 @@ public class shoppingController {
         return drinks;
     }
 
-    @RequestMapping(value="drink/{id}", method=RequestMethod.GET, produces = "application/json")
+    @GetMapping(value="drink/{id}", produces = "application/json")
     public static StringResponse retrieveDrink(@PathVariable("id") String productId) {
         final StringResponse drinkNotFound = new StringResponse();
         drinkNotFound.setResponse("drink not found");

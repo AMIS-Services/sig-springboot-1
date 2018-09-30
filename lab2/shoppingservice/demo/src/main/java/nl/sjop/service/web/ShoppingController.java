@@ -6,6 +6,7 @@ import nl.sjop.service.exception.ProductNotFoundException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -28,7 +29,7 @@ public class ShoppingController {
         return restTemplate.getForObject(urlProductService, List.class );
     }
 
-    @RequestMapping(value="drink/{id}", method=RequestMethod.GET, produces = "application/json")
+    @GetMapping(value="drink/{id}", produces = "application/json")
     public static Product retrieveDrink(@PathVariable("id") String productId) {
 
         final String url = "http://localhost:8081/products/{productId}";
