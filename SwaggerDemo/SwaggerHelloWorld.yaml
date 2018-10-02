@@ -1,0 +1,56 @@
+swagger: '2.0'
+info:
+  description: Retrieve a Hello World greeting
+  version: 1.0.0
+  title: Hello World
+  # put the contact info for your development or API team
+  contact:
+    email: pim.de.weijer@amis.nl
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: developers
+  description: Operations available to regular developers
+
+paths:
+  /helloworld:
+    get:
+      tags:
+      - developers
+      summary: get a greeting
+      operationId: getGreeting
+      description: |
+        Retrieve a greeting
+      produces:
+      - application/json
+      responses:
+        200:
+          description: get a greeting
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Greeting'
+definitions:
+  Greeting:
+    type: object
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 10
+      message:
+        type: string
+        example: Hallo Pim!
+      city:
+        type: string
+        example: Ede
+      country:
+        type: string
+        example: Nederland
