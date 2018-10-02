@@ -1,0 +1,89 @@
+https://app.swaggerhub.com
+
+Use SwaggerHelloWorld.yaml in new Swagger API definition
+
+Export settings (Server Swing):
+configPackage: com.amis.helloworld.service.config
+artifactVersion: 1.0.0
+sourceFolder: /src/main/java
+artifactDescription: Hello World greeting
+delegatePattern: checked
+apiPackage: com.amis.helloworld.service.api
+invokerPackage: com.amis.helloworld.service.invoker
+artifactId: helloworld-rest-service
+swaggerDocketConfig: checked
+developerEmail: pim.de.weijer@amis.nl
+developerOrganizationUrl: https://www.amis.nl
+basePackage: com.amis.helloworld.service
+developerName: Pim de Weijer
+java8: checked
+title: Hello World Greeting
+groupId: com.amis.helloworld
+library: Spring-boot Server application using the SpringFox integration
+modelPackage: com.amis.helloworld.service
+developerOrganization: AMIS
+
+
+Unpack in C:\Projects\SpringbootSiG\Projects\swagger-helloworld-service
+
+Open in Intellij
+
+Add to Greeting class:
+
+  public Greeting(){
+    id = 7;
+    message = "Hallo Pim!";
+    city = "Ede";
+    country = "Nederland";
+  }
+
+Rename json proterties
+
+Set port to 8091 in Application.properties
+
+
+Add new class HelloworldApiDelegateService to correct (new) package:
+
+package com.amis.helloworld.service.api.impl;
+
+
+import com.amis.helloworld.service.Greeting;
+import com.amis.helloworld.service.api.HelloworldApiDelegate;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class HelloworldApiDelegateService implements HelloworldApiDelegate {
+
+  private static final Logger log = LoggerFactory.getLogger(HelloworldApiDelegateService.class);
+
+  private final ObjectMapper objectMapper;
+
+  private final HttpServletRequest request;
+
+  @org.springframework.beans.factory.annotation.Autowired
+  public HelloworldApiDelegateService(ObjectMapper objectMapper, HttpServletRequest request) {
+    this.objectMapper = objectMapper;
+    this.request = request;
+  }
+
+  @Override
+  public ResponseEntity<List<Greeting>> getGreeting() {
+
+    List<Greeting> greetingList = new ArrayList<Greeting>();
+
+    Greeting greeting = new Greeting();
+
+    greetingList.add(greeting);
+
+    return new ResponseEntity<List<Greeting>>(greetingList, HttpStatus.ACCEPTED);
+  }
+}
