@@ -6,6 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 
 @Entity
+@SqlResultSetMapping(
+        name = "IdValueMapping",
+        classes = @ConstructorResult(
+                targetClass = Long.class,
+                columns = {
+                        @ColumnResult(name = "id", type = Long.class)}))
 public class Product {
     //private static final Long serialVersionID = 1L;
   @Id

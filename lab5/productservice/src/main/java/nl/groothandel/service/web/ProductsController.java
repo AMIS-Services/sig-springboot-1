@@ -81,7 +81,7 @@ public class ProductsController {
 
   }
 
-  @PutMapping(value = "/{id}")
+  @PutMapping(value = "/{productId}")
   @Caching(evict = {
       @CacheEvict(value="products", allEntries=true)
     }
@@ -91,7 +91,8 @@ public class ProductsController {
     }
   )
   // @ResponseBody
-  public ResponseEntity<Product> modifyProduct( @PathVariable("id") Long id
+  public ResponseEntity<Product> modifyProduct( @PathVariable("productId") String productId
+//                                                @PathVariable("id") Long id
                                               , @RequestBody Product product
                                               , UriComponentsBuilder builder )
   {
@@ -108,11 +109,11 @@ public class ProductsController {
     else{
       return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.CONFLICT);
     }*/
-    product.setId(id);
+//    product.setId(id);
     try {
       productRepository.update(product);
       final HttpHeaders headers = new HttpHeaders();
-      final URI uri = builder.path("drink/{id}").buildAndExpand(id).toUri();
+      final URI uri = builder.path("drink/{id}").buildAndExpand(productId).toUri();
       headers.setLocation(uri);
       return new ResponseEntity<>(product, headers, HttpStatus.OK);
     } catch (EntityNotFoundException e) {
