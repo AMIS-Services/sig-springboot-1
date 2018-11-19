@@ -1,6 +1,9 @@
 package nl.groothandel.service.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+
 @Entity
 @SqlResultSetMapping(
         name = "IdValueMapping",
@@ -10,9 +13,15 @@ import javax.persistence.*;
                         @ColumnResult(name = "id", type = Long.class)}))
 public class Product {
 
-    //private static final Long serialVersionID = 1L;
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(
+            strategy= GenerationType.AUTO,
+            generator="native"
+    )
+    @GenericGenerator(
+            name = "native",
+            strategy = "native"
+    )
     private Long   id;
     @Column(unique=true)
     private String productId;
